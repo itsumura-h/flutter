@@ -1,0 +1,24 @@
+FROM ubuntu:latest
+
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y ca-certificates curl vim unzip wget git && \
+    update-ca-certificates
+
+WORKDIR /home/sdk
+RUN git config --global http.sslVerify false
+
+# install dart
+RUN wget https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip --no-check-certificate && \
+    unzip dartsdk-linux-x64-release.zip && \
+    rm dartsdk-linux-x64-release.zip
+ENV PATH=$PATH:/home/sdk/dart-sdk/bin
+# RUN pub global activate webdev && \
+#     pub global activate stagehand
+
+# install flitter
+RUN wget https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.9.1+hotfix.6-stable.tar.xz --no-check-certificate && \
+    tar xfv flutter_linux_v1.9.1+hotfix.6-stable.tar.xz && \
+    rm flutter_linux_v1.9.1+hotfix.6-stable.tar.xz
+ENV PATH=$PATH:/home/sdk/flutter/bin
+RUN flutter precache

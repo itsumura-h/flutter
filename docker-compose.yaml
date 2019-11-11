@@ -1,0 +1,13 @@
+version: '3'
+services:
+  front:
+    build:
+      context: .
+      dockerfile: front_Dockerfile
+    tty: true
+    environment:
+      LANG: C.UTF-8
+    volumes:
+      - ./front:/home/www
+    ports:
+      - "9001:8080"
